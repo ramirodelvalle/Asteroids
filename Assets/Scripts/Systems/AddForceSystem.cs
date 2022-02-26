@@ -28,9 +28,9 @@ public class AddForceSystem : SystemBase
 
         //ASTEROID
         Entities.ForEach
-        ((ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, in AsteroidData asteroid) =>
+        ((ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, ref AsteroidData asteroid) =>
         {
-            var forceVector = (float3)Vector3.up * asteroid.movementSpeed * deltaTime;
+            var forceVector = asteroid.movementDirection * asteroid.movementSpeed * deltaTime;
             physicsVelocity.ApplyLinearImpulse(physicsMass, forceVector);
         }).Run();
     }

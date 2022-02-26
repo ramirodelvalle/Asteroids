@@ -10,16 +10,17 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameObject ballPrefab;
+    public GameObject shipPrefab;
+    public GameObject asteroidPrefab;
     public Text scoreText;
 
     public int maxScore;
     public int cubesPerFrame;
-    public GameObject cubePrefab;
     public float cubeSpeed = 3f;
 
     private int curScore;
-    private Entity ballEntityPrefab;
+    private Entity shipEntityPrefab;
+    private Entity asteroidEntityPrefab;
     private EntityManager manager; //para instanciar los objetos al juego
     private BlobAssetStore blobAssetStore;
 
@@ -40,9 +41,9 @@ public class GameManager : MonoBehaviour
         blobAssetStore = new BlobAssetStore();
         GameObjectConversionSettings settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, blobAssetStore);
 
-        ballEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(ballPrefab, settings); 
+        shipEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(shipPrefab, settings);
 
-        cubeEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(cubePrefab, settings);
+        asteroidEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(asteroidPrefab, settings);
     }
 
     private void OnDestroy()
@@ -57,7 +58,8 @@ public class GameManager : MonoBehaviour
         insaneMode = false;
 
         DisplayScore();
-        SpawnBall();
+        SpawnShip();
+        SpawnRandomPositionAsteroid();
     }
 
     private void Update()
@@ -75,13 +77,13 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < cubesPerFrame; i++)
             {
-                SpawnNewCube();
+                SpawnNewAsteroid();
             }
             yield return null;
         }
     }
 
-    void SpawnNewCube()
+    void SpawnNewAsteroid()
     {
         Entity newCubeEntity = manager.Instantiate(cubeEntityPrefab);
 
@@ -108,16 +110,52 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + curScore;
     }
 
-    void SpawnBall()
+    void SpawnRandomPositionAsteroid()
     {
-        Entity newBallEntity = manager.Instantiate(ballEntityPrefab);
-
-        Translation ballTrans = new Translation
+        float minValue = -6;
+        float maxValue = 6;
+        for (int i = 0; i < 5; i++)
         {
-            Value = new float3(0f, 0.5f, 0f)
+            float x = UnityEngine.Random.Range(minValue, maxValue);
+            float y = UnityEngine.Random.Range(minValue, maxValue);
+
+            Translation translation = new Translation
+            {
+                Value = new float3(x, y, 0)
+            };
+            SpawnAsteroid(translation);
+        }
+    }
+
+    void SpawnShip()
+    {
+        Entity newObjEntity = manager.Instantiate(shipEntityPrefab);
+        Translation objTrans = new Translation
+        {
+            Value = new float3(0f, 0f, 0f)
+        };
+        
+        manager.AddComponentData(newObjEntity, objTrans);
+    }
+
+    void SpawnAsteroid(Translation objTrans)
+    {
+        //manager.SetComponentData(asteroidEntityPrefab, new AsteroidData { movementDirection = new Vector3(2, 2, 0) });
+
+        Entity newObjEntity = manager.Instantiate(asteroidEntityPrefab);
+
+        manager.AddComponentData(newObjEntity, objTrans);
+
+        float minForce = -2.5f;
+        float maxForce = 2.5f;
+        float3 direction = new float3(UnityEngine.Random.Range(minForce, maxForce),
+            UnityEngine.Random.Range(minForce, maxForce), 0f);
+
+        AsteroidData asteroid = new AsteroidData{
+            movementSpeed = 1,
+            movementDirection = direction
         };
 
-        manager.AddComponentData(newBallEntity, ballTrans);
-        //CameraFollow.instance.ballEntity = newBallEntity;
+        manager.AddComponentData(newObjEntity, asteroid);
     }
 }
