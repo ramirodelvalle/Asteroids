@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 551845416245482265}
   - component: {fileID: 551845416245482264}
-  - component: {fileID: 551845416245482246}
   - component: {fileID: 551845416245482244}
   - component: {fileID: 7928084649579750911}
   - component: {fileID: 551845416245482271}
   - component: {fileID: -4108101633166078977}
+  - component: {fileID: 2495242795972523404}
   m_Layer: 0
   m_Name: SpaceShip
   m_TagString: Untagged
@@ -86,19 +86,6 @@ MonoBehaviour:
     Tag05: 0
     Tag06: 0
     Tag07: 0
---- !u!114 &551845416245482246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551845416245482247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConversionMode: 0
 --- !u!114 &551845416245482244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +268,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: e12f2b9fd790de94fa054e030df48e60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -321,3 +308,15 @@ MonoBehaviour:
   lives: 0
   speed: 10
   rotationSpeed: 200
+--- !u!114 &2495242795972523404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551845416245482247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04130caa6158d1b428c472734cea4fcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
