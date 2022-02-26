@@ -3,6 +3,7 @@ using Unity.Jobs;
 using Unity.Physics;
 using Unity.Mathematics;
 using UnityEngine;
+using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
 public class MovementSystem : JobComponentSystem
@@ -11,15 +12,22 @@ public class MovementSystem : JobComponentSystem
     {
         float deltaTime = Time.DeltaTime;
 
-        float2 curInput = new float2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
-        Entities.ForEach((ref PhysicsVelocity vel, in SpeedData speedData) => 
+        Entities.ForEach((ref Translation translation, ref PhysicsVelocity vel, ref Rotation rotation, in PlayerData player, in SpeedData speedData) =>
         {
-            float2 newVelocity = vel.Linear.xz;
-
-            newVelocity += curInput * speedData.speed * deltaTime;
-
-            vel.Linear.xz = newVelocity;
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(player.rotationSpeed * deltaTime)));
+            }
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(player.rotationSpeed * deltaTime * -1)));
+            }
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                //float3 value = translation.Value;
+                //value += deltaTime * player.speed * math.forward(rotation.Value) *-1;
+                //translation.Value = value;
+            }
         }).Run();
 
         return default;
