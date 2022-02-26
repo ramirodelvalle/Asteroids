@@ -30,6 +30,30 @@ public class ScreenWrapperSystem : JobComponentSystem
                 translation.Value.x = 5;
             }
         }).Run();
+
+        Entities.ForEach((ref Translation translation, in AsteroidData asteroid, in LocalToWorld localToWorld) =>
+        {
+            float range = 0.5f;
+            if (translation.Value.y > 5 + range)
+            {
+                translation.Value.y = -5;
+            }
+
+            if (translation.Value.y < -5 - range)
+            {
+                translation.Value.y = 5;
+            }
+
+            if (translation.Value.x > 5 + range)
+            {
+                translation.Value.x = -5;
+            }
+
+            if (translation.Value.x < -5 - range)
+            {
+                translation.Value.x = 5;
+            }
+        }).Run();
         return default;
     }
 }

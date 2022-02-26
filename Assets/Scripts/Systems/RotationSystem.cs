@@ -14,8 +14,6 @@ public class RotationSystem : JobComponentSystem
 
         Entities.ForEach((ref Rotation rotation, in RotationSpeedData rotationSpeed) =>
         {
-            rotation.Value = math.mul(rotation.Value, quaternion.RotateX(math.radians(rotationSpeed.speed * deltaTime)));
-            rotation.Value = math.mul(rotation.Value, quaternion.RotateY(math.radians(rotationSpeed.speed * deltaTime)));
             rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(rotationSpeed.speed * deltaTime)));
         }).Run();
 

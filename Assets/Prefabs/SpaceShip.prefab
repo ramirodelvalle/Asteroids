@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 7928084649579750911}
   - component: {fileID: 551845416245482271}
   - component: {fileID: -4108101633166078977}
-  - component: {fileID: 2495242795972523404}
   m_Layer: 0
   m_Name: SpaceShip
   m_TagString: Untagged
@@ -51,7 +50,7 @@ MonoBehaviour:
   m_MotionType: 0
   m_Smoothing: 0
   m_Mass: 1
-  m_LinearDamping: 0.01
+  m_LinearDamping: 1
   m_AngularDamping: 0.05
   m_InitialLinearVelocity:
     x: 0
@@ -308,15 +307,3 @@ MonoBehaviour:
   lives: 0
   speed: 10
   rotationSpeed: 200
---- !u!114 &2495242795972523404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551845416245482247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04130caa6158d1b428c472734cea4fcb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

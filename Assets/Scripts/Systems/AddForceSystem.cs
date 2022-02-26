@@ -13,6 +13,8 @@ public class AddForceSystem : SystemBase
     protected override void OnUpdate()
     {
         var deltaTime = Time.DeltaTime;
+
+        //SHIP
         Entities.ForEach
         ((ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, ref Translation translation,
             in PlayerData player, in Rotation rotation, in LocalToWorld localToWorld) =>
@@ -22,6 +24,14 @@ public class AddForceSystem : SystemBase
                     PhysicsComponentExtensions.ApplyImpulse(ref physicsVelocity, physicsMass, translation, rotation,
                     localToWorld.Up * deltaTime * player.speed, translation.Value);
                 }
-         }).Run();
+            }).Run();
+
+        //ASTEROID
+        Entities.ForEach
+        ((ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, in AsteroidData asteroid) =>
+        {
+            var forceVector = (float3)Vector3.up * asteroid.movementSpeed * deltaTime;
+            physicsVelocity.ApplyLinearImpulse(physicsMass, forceVector);
+        }).Run();
     }
 }
