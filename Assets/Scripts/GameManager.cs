@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject shipPrefab;
     public GameObject asteroidPrefab;
+    public GameObject laserPrefab;
+
     public Text scoreText;
 
     public int maxScore;
@@ -19,13 +21,13 @@ public class GameManager : MonoBehaviour
     public float cubeSpeed = 3f;
 
     private int curScore;
+
     private Entity shipEntityPrefab;
     private Entity asteroidEntityPrefab;
+    private Entity laserEntityPrefab;
+
     private EntityManager manager; //para instanciar los objetos al juego
     private BlobAssetStore blobAssetStore;
-
-    private bool insaneMode;
-    private Entity cubeEntityPrefab;
 
     private void Awake()
     {
@@ -37,13 +39,15 @@ public class GameManager : MonoBehaviour
 
         instance = this;
 
+        
+
         manager = World.DefaultGameObjectInjectionWorld.EntityManager; //inicializa el manager
         blobAssetStore = new BlobAssetStore();
         GameObjectConversionSettings settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, blobAssetStore);
 
         shipEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(shipPrefab, settings);
-
         asteroidEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(asteroidPrefab, settings);
+        laserEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(laserPrefab, settings);
     }
 
     private void OnDestroy()
@@ -55,48 +59,14 @@ public class GameManager : MonoBehaviour
     {
         curScore = 0;
 
-        insaneMode = false;
-
         DisplayScore();
         SpawnShip();
-        SpawnRandomPositionAsteroid();
+        SpawnRandomPositionAsteroids();
     }
 
     private void Update()
     {
-        if (!insaneMode && curScore >= maxScore)
-        {
-            insaneMode = true;
-            StartCoroutine(SpawnLotsOfCubes());
-        }
-    }
-
-    IEnumerator SpawnLotsOfCubes()
-    {
-        while (insaneMode)
-        {
-            for (int i = 0; i < cubesPerFrame; i++)
-            {
-                SpawnNewAsteroid();
-            }
-            yield return null;
-        }
-    }
-
-    void SpawnNewAsteroid()
-    {
-        Entity newCubeEntity = manager.Instantiate(cubeEntityPrefab);
-
-        Vector3 direction = Vector3.up;
-        Vector3 speed = direction * cubeSpeed;
-
-        PhysicsVelocity velocity = new PhysicsVelocity()
-        {
-            Linear = speed,
-            Angular = float3.zero
-        };
-
-        manager.AddComponentData(newCubeEntity, velocity);
+        
     }
 
     public void IncreaseScore()
@@ -110,7 +80,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + curScore;
     }
 
-    void SpawnRandomPositionAsteroid()
+    void SpawnRandomPositionAsteroids()
     {
         float minValue = -6;
         float maxValue = 6;
@@ -134,14 +104,12 @@ public class GameManager : MonoBehaviour
         {
             Value = new float3(0f, 0f, 0f)
         };
-        
+
         manager.AddComponentData(newObjEntity, objTrans);
     }
 
     void SpawnAsteroid(Translation objTrans)
     {
-        //manager.SetComponentData(asteroidEntityPrefab, new AsteroidData { movementDirection = new Vector3(2, 2, 0) });
-
         Entity newObjEntity = manager.Instantiate(asteroidEntityPrefab);
 
         manager.AddComponentData(newObjEntity, objTrans);
@@ -157,5 +125,28 @@ public class GameManager : MonoBehaviour
         };
 
         manager.AddComponentData(newObjEntity, asteroid);
+    }
+
+    public void SpawnLaser(Translation objTrans)
+    {
+        Entity newObjEntity = manager.Instantiate(laserEntityPrefab);
+        //Entity newObjEntity = entityCommand.Instantiate(laserEntityPrefab);
+
+        manager.AddComponentData(newObjEntity, objTrans);
+        //entityCommand.AddComponent(newObjEntity, objTrans);
+
+        float minForce = -2.5f;
+        float maxForce = 2.5f;
+        float3 direction = new float3(UnityEngine.Random.Range(minForce, maxForce),
+            UnityEngine.Random.Range(minForce, maxForce), 0f);
+
+        LaserData laser = new LaserData
+        {
+            movementSpeed = 1,
+            movementDirection = direction
+        };
+
+        manager.AddComponentData(newObjEntity, laser);
+        //entityCommand.AddComponent(newObjEntity, laser);
     }
 }

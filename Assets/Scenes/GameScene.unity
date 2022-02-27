@@ -700,6 +700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipPrefab: {fileID: 551845416245482247, guid: 1d06bef35ddbe254fbd0f9a73c7c8076, type: 3}
   asteroidPrefab: {fileID: 6418223780565983520, guid: 62b321e5895ca7645b67ccbfcff44f46, type: 3}
+  laserPrefab: {fileID: 0}
   scoreText: {fileID: 33494523}
   maxScore: 0
   cubesPerFrame: 0

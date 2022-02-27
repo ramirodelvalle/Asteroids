@@ -16,7 +16,7 @@ public class AddForceSystem : SystemBase
 
         //SHIP
         Entities.ForEach
-        ((ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, ref Translation translation,
+        ((ref PhysicsVelocity physicsVelocity, in PhysicsMass physicsMass, in Translation translation,
             in PlayerData player, in Rotation rotation, in LocalToWorld localToWorld) =>
             {
                 if (Input.GetKey(KeyCode.UpArrow))
@@ -28,10 +28,21 @@ public class AddForceSystem : SystemBase
 
         //ASTEROID
         Entities.ForEach
-        ((ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, ref AsteroidData asteroid) =>
+        ((ref PhysicsVelocity physicsVelocity, in PhysicsMass physicsMass, in AsteroidData asteroid) =>
         {
             var forceVector = asteroid.movementDirection * asteroid.movementSpeed * deltaTime;
             physicsVelocity.ApplyLinearImpulse(physicsMass, forceVector);
+        }).Run();
+
+        //LASER SHOOT
+        Entities.ForEach
+        ((ref PhysicsVelocity physicsVelocity, in Translation translation, in PhysicsMass physicsMass, in LaserData laser,
+            in Rotation rotation, in LocalToWorld localToWorld) =>
+        {
+            var forceVector = laser.movementDirection * laser.movementSpeed * deltaTime;
+            //physicsVelocity.ApplyLinearImpulse(physicsMass, forceVector);
+            PhysicsComponentExtensions.ApplyImpulse(ref physicsVelocity, physicsMass, translation, rotation, 
+                localToWorld.Up, translation.Value);
         }).Run();
     }
 }

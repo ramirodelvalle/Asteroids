@@ -17,6 +17,8 @@ public class RotationSystem : JobComponentSystem
             rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(rotationSpeed.speed * deltaTime)));
         }).Run();
 
+        
+
         return default;
     }
 }
