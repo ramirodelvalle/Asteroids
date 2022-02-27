@@ -21,6 +21,7 @@ public class SpawnerEntitySystem : SystemBase
         var ecb = _endSimulationEntityCommandBufferSystem.CreateCommandBuffer().AsParallelWriter();
         var deltaTime = Time.DeltaTime;
 
+        //SHIP SHOOT
         Entities.WithAll<PlayerData>().ForEach(
         (Entity e, int entityInQueryIndex, ref EntitySpawnData spawnData,
             ref Translation translation, ref PlayerData player, in Rotation rotation) =>
@@ -33,7 +34,7 @@ public class SpawnerEntitySystem : SystemBase
             //    spawnData.Timer = spawnData.SpawnDelay;
             //    player.alreadyShoot = false;
             //}
-
+             
             if (!player.alreadyShoot)
             {
                 var newEntity = ecb.Instantiate(entityInQueryIndex, spawnData.EntityToSpawn);
@@ -42,10 +43,30 @@ public class SpawnerEntitySystem : SystemBase
                 ecb.SetComponent(entityInQueryIndex, newEntity, rotation);
 
                 player.alreadyShoot = true;
-            }
-
-           
+                //Debug.Log("Laser shoot");
+            } 
         }).ScheduleParallel();
+
+        //Entities.WithAll<AsteroidSpawnTag>().ForEach(
+        //(Entity e, int entityInQueryIndex, ref EntitySpawnData spawnData) =>
+        //{
+        //    Debug.Log("Laser 12312");
+        //    var newEntity = ecb.Instantiate(entityInQueryIndex, spawnData.EntityToSpawn);
+
+        //    float minForce = -2.5f;
+        //    float maxForce = 2.5f;
+        //    float3 direction = new float3(UnityEngine.Random.Range(minForce, maxForce),
+        //        UnityEngine.Random.Range(minForce, maxForce), 0f);
+
+        //    AsteroidData asteroidData = new AsteroidData
+        //    {
+        //        movementDirection = direction,
+        //        movementSpeed = 1
+        //    };
+        //    ecb.AddComponent(entityInQueryIndex, newEntity, asteroidData);
+            
+        //}).ScheduleParallel();
+
         _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(this.Dependency);
     }
 }

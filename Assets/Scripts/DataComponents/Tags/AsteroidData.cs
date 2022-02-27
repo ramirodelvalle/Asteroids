@@ -6,4 +6,5 @@ public struct AsteroidData: IComponentData
 {
     public int movementSpeed;
     public float3 movementDirection;
+    public int asteroidSize;
 }

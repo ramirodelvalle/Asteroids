@@ -37,19 +37,19 @@ public class OnTriggerEnterSystem : JobComponentSystem
             
             if (allAsteroids.HasComponent(entityA) && allAsteroids.HasComponent(entityB))
             {
-                UnityEngine.Debug.Log("choque entre asteroides");
+                //UnityEngine.Debug.Log("choque entre asteroides");
                 return;
             }
 
             if (allLasers.HasComponent(entityA) && allAsteroids.HasComponent(entityB))
             {
-                UnityEngine.Debug.Log("laser Entity A: " + entityA + " choco con asteroide: " + entityB);
+                //UnityEngine.Debug.Log("laser Entity A: " + entityA + " choco con asteroide: " + entityB);
                 entityCommandBuffer.AddComponent(entityB, new DeleteTag());
                 entityCommandBuffer.DestroyEntity(entityA);
             }
             else if (allAsteroids.HasComponent(entityA) && allLasers.HasComponent(entityB))
             {
-                UnityEngine.Debug.Log("asteroide Entity A: " + entityA + " laser con laser: " + entityB);
+                //UnityEngine.Debug.Log("asteroide Entity A: " + entityA + " laser con laser: " + entityB);
                 entityCommandBuffer.AddComponent(entityA, new DeleteTag());
                 entityCommandBuffer.DestroyEntity(entityB);
             }

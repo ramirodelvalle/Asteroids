@@ -2,7 +2,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 
 [GenerateAuthoringComponent]
-public struct EntitySpawnData : IComponentData
+public struct AsteroidSpawnTag : IComponentData
 {
-    public Entity EntityToSpawn;
+    
 }
