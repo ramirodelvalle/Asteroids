@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
     public GameObject asteroidPrefabBig;
     public GameObject asteroidPrefabMedium;
     public GameObject asteroidPrefabSmall;
-    public GameObject laserPrefab;
+    public GameObject powerUpPrefab;
+    public GameObject ufoPrefab;
+    public GameObject laserBallPrefab;
 
     public Text scoreText;
 
@@ -25,13 +27,18 @@ public class GameManager : MonoBehaviour
     private int curScore;
 
     private Entity shipEntityPrefab;
-    private Entity asteroidEntityPrefab;
+    private Entity asteroidBigEntityPrefab;
     private Entity asteroidMediumEntityPrefab;
     private Entity asteroidSmallEntityPrefab;
-    private Entity laserEntityPrefab;
+    private Entity powerUpEntityPrefab;
+    private Entity ufoEntityPrefab;
+    private Entity laserBallEntityPrefab;
 
     private EntityManager manager; //para instanciar los objetos al juego
     private BlobAssetStore blobAssetStore;
+
+    public float timeToRespawnUfo = 15;
+    public float seconds = 0;
 
     private void Awake()
     {
@@ -50,10 +57,12 @@ public class GameManager : MonoBehaviour
         GameObjectConversionSettings settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, blobAssetStore);
 
         shipEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(shipPrefab, settings);
-        asteroidEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(asteroidPrefabBig, settings);
+        asteroidBigEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(asteroidPrefabBig, settings);
         asteroidMediumEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(asteroidPrefabMedium, settings);
         asteroidSmallEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(asteroidPrefabSmall, settings);
-        laserEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(laserPrefab, settings);
+        powerUpEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(powerUpPrefab, settings);
+        ufoEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(ufoPrefab, settings);
+        laserBallEntityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(laserBallPrefab, settings);
     }
 
     private void OnDestroy()
@@ -67,14 +76,26 @@ public class GameManager : MonoBehaviour
 
         DisplayScore();
         SpawnShip();
-        //SpawnRandomPositionAsteroids();
+        SpawnRandomPositionAsteroids();
 
-        SpawnTestAsteroid(); //TODO sacar
+        //SpawnTestAsteroid(); //TODO sacar
+        //SpawnUfo();
+
+        Translation translation = new Translation
+        {
+            Value = new float3(3, 0, 0)
+        };
+        //SpawnPowerUpSuperLaser(translation);
     }
 
     private void Update()
     {
-
+        seconds += Time.deltaTime;
+        if (seconds > timeToRespawnUfo)
+        {
+            SpawnUfo();
+            timeToRespawnUfo = seconds + 15;
+        }
     }
 
     public void IncreaseScore()
@@ -90,8 +111,8 @@ public class GameManager : MonoBehaviour
 
     void SpawnRandomPositionAsteroids()
     {
-        float minValue = -6;
-        float maxValue = 6;
+        float minValue = -9;
+        float maxValue = 9;
         for (int i = 0; i < 5; i++)
         {
             float x = UnityEngine.Random.Range(minValue, maxValue);
@@ -118,7 +139,7 @@ public class GameManager : MonoBehaviour
 
     void SpawnAsteroid(Translation objTrans)
     {
-        Entity newObjEntity = manager.Instantiate(asteroidEntityPrefab);
+        Entity newObjEntity = manager.Instantiate(asteroidBigEntityPrefab);
 
         manager.AddComponentData(newObjEntity, objTrans);
 
@@ -130,38 +151,16 @@ public class GameManager : MonoBehaviour
         AsteroidData asteroid = new AsteroidData
         {
             movementSpeed = 1,
-            movementDirection = direction
+            movementDirection = direction,
+            asteroidSize = 1
         };
 
         manager.AddComponentData(newObjEntity, asteroid);
     }
 
-    public void SpawnLaser(Translation objTrans)
+    public void SpawnAsteroid()
     {
-        Entity newObjEntity = manager.Instantiate(laserEntityPrefab);
-        //Entity newObjEntity = entityCommand.Instantiate(laserEntityPrefab);
-
-        manager.AddComponentData(newObjEntity, objTrans);
-        //entityCommand.AddComponent(newObjEntity, objTrans);
-
-        float minForce = -2.5f;
-        float maxForce = 2.5f;
-        float3 direction = new float3(UnityEngine.Random.Range(minForce, maxForce),
-            UnityEngine.Random.Range(minForce, maxForce), 0f);
-
-        LaserData laser = new LaserData
-        {
-            movementSpeed = 1,
-            movementDirection = direction
-        };
-
-        manager.AddComponentData(newObjEntity, laser);
-        //entityCommand.AddComponent(newObjEntity, laser);
-    }
-
-    public void SpawnTestAsteroid()
-    {
-        Entity newObjEntity = manager.Instantiate(asteroidEntityPrefab);
+        Entity newObjEntity = manager.Instantiate(asteroidBigEntityPrefab);
 
         float minForce = -2.5f;
         float maxForce = 2.5f;
@@ -170,7 +169,7 @@ public class GameManager : MonoBehaviour
 
         Translation translation = new Translation
         {
-            Value = new float3(0, 4, 0)
+            Value = new float3(-3, 0, 0)
         };
         manager.AddComponentData(newObjEntity, translation);
 
@@ -184,14 +183,14 @@ public class GameManager : MonoBehaviour
         manager.AddComponentData(newObjEntity, asteroid);
     }
 
-    public void SpawnTestAsteroid(Translation translation, AsteroidData asteroidData)
+    public void SpawnAsteroid(Translation translation, AsteroidData asteroidData)
     {
         for (int i = 0; i < 4; i++)
         {
             float minForce = -2.5f;
             float maxForce = 2.5f;
             float3 direction = new float3(UnityEngine.Random.Range(minForce, maxForce),
-                UnityEngine.Random.Range(minForce, maxForce), 0f);
+                UnityEngine.Random.Range(3, 6), 0f);
 
             Entity asteroidEntity = new Entity();
 
@@ -205,7 +204,7 @@ public class GameManager : MonoBehaviour
             {
                 asteroid.asteroidSize = 2;
                 asteroidEntity = asteroidMediumEntityPrefab;
-                
+
             }
             else if (asteroidData.asteroidSize == 2)
             {
@@ -216,6 +215,40 @@ public class GameManager : MonoBehaviour
             Entity newObjEntity = manager.Instantiate(asteroidEntity);
             manager.AddComponentData(newObjEntity, translation);
             manager.AddComponentData(newObjEntity, asteroid);
+        }
+    }
+
+    public void SpawnUfo()
+    {
+        Entity newObjEntity = manager.Instantiate(ufoEntityPrefab);
+
+        float min = -3.5f;
+        float max = 3.5f;
+        float3 direction = new float3(UnityEngine.Random.Range(min, max),
+            UnityEngine.Random.Range(min, max), 0f);
+
+        Translation translation = new Translation
+        {
+            Value = new float3(-10, UnityEngine.Random.Range(min, max), 0)
+        };
+
+        manager.AddComponentData(newObjEntity, translation);        
+    }
+
+    public void SpawnPowerUpSuperLaser(Translation translation)
+    {
+        Entity newObjEntity = manager.Instantiate(powerUpEntityPrefab);
+        manager.AddComponentData(newObjEntity, translation);
+        manager.AddComponentData(newObjEntity, new SuperLaserPowerUpData());
+    }
+
+    public void ShootUfo(Translation translation)
+    {
+        if (seconds % 2 == 0)
+        {
+            Entity newObjEntity = manager.Instantiate(laserBallEntityPrefab);
+            manager.AddComponentData(newObjEntity, translation);
+            //manager.AddComponentData(newObjEntity, new SuperLaserPowerUpData());
         }
     }
 }

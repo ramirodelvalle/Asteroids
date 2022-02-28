@@ -40,9 +40,16 @@ public class AddForceSystem : SystemBase
             in Rotation rotation, in LocalToWorld localToWorld) =>
         {
             var forceVector = laser.movementDirection * laser.movementSpeed * deltaTime;
-            //physicsVelocity.ApplyLinearImpulse(physicsMass, forceVector);
             PhysicsComponentExtensions.ApplyImpulse(ref physicsVelocity, physicsMass, translation, rotation, 
                 localToWorld.Up, translation.Value);
+        }).Run();
+
+        //UFO
+        Entities.ForEach
+        ((ref PhysicsVelocity physicsVelocity, in PhysicsMass physicsMass, in EnemyData enemyData) =>
+        {
+            var forceVector = enemyData.movementDirection * enemyData.movementSpeed * deltaTime;
+            physicsVelocity.ApplyLinearImpulse(physicsMass, forceVector);
         }).Run();
     }
 }

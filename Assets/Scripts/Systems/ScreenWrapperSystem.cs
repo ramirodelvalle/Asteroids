@@ -7,7 +7,9 @@ public class ScreenWrapperSystem : JobComponentSystem
 {
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        Entities.ForEach((ref Translation translation, in PlayerData player, in LocalToWorld localToWorld) =>
+        Entities
+            .WithNone<LaserData>()
+            .ForEach((ref Translation translation) =>
         {
             float range = 0.5f;
             if (translation.Value.y > 5 + range)
@@ -20,40 +22,17 @@ public class ScreenWrapperSystem : JobComponentSystem
                 translation.Value.y = 5;
             }
 
-            if (translation.Value.x > 5 + range)
+            if (translation.Value.x > 9 + range)
             {
-                translation.Value.x = -5;
+                translation.Value.x = -9;
             }
 
-            if (translation.Value.x < -5 - range)
+            if (translation.Value.x < -9 - range)
             {
-                translation.Value.x = 5;
+                translation.Value.x = 9;
             }
         }).Run();
 
-        Entities.ForEach((ref Translation translation, in AsteroidData asteroid, in LocalToWorld localToWorld) =>
-        {
-            float range = 0.5f;
-            if (translation.Value.y > 5 + range)
-            {
-                translation.Value.y = -5;
-            }
-
-            if (translation.Value.y < -5 - range)
-            {
-                translation.Value.y = 5;
-            }
-
-            if (translation.Value.x > 5 + range)
-            {
-                translation.Value.x = -5;
-            }
-
-            if (translation.Value.x < -5 - range)
-            {
-                translation.Value.x = 5;
-            }
-        }).Run();
         return default;
     }
 }

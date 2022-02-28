@@ -2,9 +2,10 @@ using Unity.Entities;
 using Unity.Mathematics;
 
 [GenerateAuthoringComponent]
-public struct AsteroidData : IComponentData
+public struct EnemyData: IComponentData
 {
     public int movementSpeed;
     public float3 movementDirection;
-    public int asteroidSize;
+    public float secondsToFire;
+    public bool alreadyShoot;
 }

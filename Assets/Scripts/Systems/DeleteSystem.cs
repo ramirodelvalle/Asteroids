@@ -19,10 +19,28 @@ public class DeleteSystem : SystemBase
             GameManager.instance.IncreaseScore();
             if (asteroidData.asteroidSize != 3)
             {
-                GameManager.instance.SpawnTestAsteroid(translation, asteroidData);
+                GameManager.instance.SpawnAsteroid(translation, asteroidData);
             }
             commandBuffer.DestroyEntity(entity);
         }).Run();
+
+        //ENEMY
+        Entities
+            .WithAll<DeleteTag, EnemyData>()
+            .WithStructuralChanges()
+            .ForEach((Entity entity, in Translation translation) =>
+            {
+                GameManager.instance.IncreaseScore();
+                commandBuffer.DestroyEntity(entity);
+            }).Run();
+
+        Entities
+            .WithAll<EnemyData>()
+            .WithStructuralChanges()
+            .ForEach((Entity entity, in Translation translation) =>
+            {
+                GameManager.instance.ShootUfo(translation);   
+            }).Run();
 
         commandBuffer.Playback(EntityManager);
         commandBuffer.Dispose();

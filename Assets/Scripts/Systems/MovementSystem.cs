@@ -12,7 +12,9 @@ public class MovementSystem : JobComponentSystem
     {
         float deltaTime = Time.DeltaTime;
 
-        Entities.ForEach((ref Translation translation, ref PhysicsVelocity vel, ref Rotation rotation, in PlayerData player, in SpeedData speedData) =>
+        Entities.
+            ForEach((ref Translation translation, ref PhysicsVelocity vel, ref Rotation rotation,
+            in PlayerData player, in SpeedData speedData) =>
         {
             if (Input.GetKey(KeyCode.LeftArrow))
             {

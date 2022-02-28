@@ -5,4 +5,5 @@ using Unity.Mathematics;
 public struct EntitySpawnData : IComponentData
 {
     public Entity EntityToSpawn;
+    public Entity EntityToSpawn2;
 }

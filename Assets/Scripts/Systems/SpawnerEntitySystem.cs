@@ -22,19 +22,12 @@ public class SpawnerEntitySystem : SystemBase
         var deltaTime = Time.DeltaTime;
 
         //SHIP SHOOT
-        Entities.WithAll<PlayerData>().ForEach(
+        Entities.WithAll<PlayerData>()
+        .WithNone<SuperLaserTag>()
+        .ForEach(
         (Entity e, int entityInQueryIndex, ref EntitySpawnData spawnData,
-            ref Translation translation, ref PlayerData player, in Rotation rotation) =>
+            ref PlayerData player, ref Translation translation, in Rotation rotation) =>
         {
-            //Debug.Log("spawnData.Timer: " + spawnData.Timer);
-            //Debug.Log("deltaTime: " + deltaTime);
-            //spawnData.Timer -= deltaTime;
-            //if (spawnData.Timer <= 0)
-            //{
-            //    spawnData.Timer = spawnData.SpawnDelay;
-            //    player.alreadyShoot = false;
-            //}
-             
             if (!player.alreadyShoot)
             {
                 var newEntity = ecb.Instantiate(entityInQueryIndex, spawnData.EntityToSpawn);
@@ -43,28 +36,57 @@ public class SpawnerEntitySystem : SystemBase
                 ecb.SetComponent(entityInQueryIndex, newEntity, rotation);
 
                 player.alreadyShoot = true;
-                //Debug.Log("Laser shoot");
-            } 
+            }
         }).ScheduleParallel();
 
-        //Entities.WithAll<AsteroidSpawnTag>().ForEach(
-        //(Entity e, int entityInQueryIndex, ref EntitySpawnData spawnData) =>
+        //SHIP SUPER SHOOT
+        Entities.WithAll<SuperLaserTag>().ForEach(
+        (Entity e, int entityInQueryIndex, ref EntitySpawnData spawnData,
+            ref PlayerData player, ref Translation translation, in Rotation rotation) =>
+        {
+            if (!player.alreadyShoot)
+            {
+                var newEntity = ecb.Instantiate(entityInQueryIndex, spawnData.EntityToSpawn2);
+                ecb.AddComponent<LaserData>(entityInQueryIndex, newEntity);
+                ecb.SetComponent(entityInQueryIndex, newEntity, translation);
+                ecb.SetComponent(entityInQueryIndex, newEntity, rotation);
+
+                player.alreadyShoot = true;
+            }
+        }).ScheduleParallel();
+
+        //UFO SHOOT
+        //Entities.WithAll<EnemyLaserData>().ForEach(
+        //(Entity e, int entityInQueryIndex, ref EntitySpawnData spawnData,
+        //    ref EnemyData enemy, ref Translation translation, in Rotation rotation) =>
         //{
-        //    Debug.Log("Laser 12312");
-        //    var newEntity = ecb.Instantiate(entityInQueryIndex, spawnData.EntityToSpawn);
-
-        //    float minForce = -2.5f;
-        //    float maxForce = 2.5f;
-        //    float3 direction = new float3(UnityEngine.Random.Range(minForce, maxForce),
-        //        UnityEngine.Random.Range(minForce, maxForce), 0f);
-
-        //    AsteroidData asteroidData = new AsteroidData
+        //    if (!enemy.alreadyShoot)
         //    {
-        //        movementDirection = direction,
-        //        movementSpeed = 1
-        //    };
-        //    ecb.AddComponent(entityInQueryIndex, newEntity, asteroidData);
-            
+        //        var newEntity = ecb.Instantiate(entityInQueryIndex, spawnData.EntityToSpawn);
+        //        ecb.AddComponent<EnemyLaserData>(entityInQueryIndex, newEntity);
+        //        ecb.SetComponent(entityInQueryIndex, newEntity, translation);
+        //        ecb.SetComponent(entityInQueryIndex, newEntity, rotation);
+
+        //        enemy.alreadyShoot = true;
+        //    }
+        //}).ScheduleParallel();
+
+        //SHIP SHIELD
+        //Entities.WithAll< PlayerData>().ForEach(
+        //(Entity e, int entityInQueryIndex, ref EntitySpawnData spawnData,
+        //    ref PlayerData player, ref Translation translation, in Rotation rotation) =>
+        //{
+        //    if (!player.alreadyShoot)
+        //    {
+        //        var newEntity = ecb.Instantiate(entityInQueryIndex, spawnData.EntityToSpawn2);
+        //        ecb.AddComponent<LaserData>(entityInQueryIndex, newEntity);
+        //        ecb.SetComponent(entityInQueryIndex, newEntity, translation);
+        //        ecb.SetComponent(entityInQueryIndex, newEntity, rotation);
+
+        //        player.alreadyShoot = true;
+
+        //        ecb.
+        //    }
         //}).ScheduleParallel();
 
         _endSimulationEntityCommandBufferSystem.AddJobHandleForProducer(this.Dependency);
