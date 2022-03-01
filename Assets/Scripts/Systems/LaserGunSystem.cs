@@ -1,28 +1,39 @@
 ﻿using Unity.Entities;
 using Unity.Jobs;
-using Unity.Physics;
-using Unity.Mathematics;
 using UnityEngine;
 using Unity.Transforms;
-using Unity.Physics.Extensions;
 using Unity.Collections;
 
 [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
 public class LaserGunSystem : SystemBase
 {
+    EntityCommandBuffer cb;
     protected override void OnUpdate()
     {
-        Entities.ForEach
-        ((ref PlayerData player) =>
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
+        cb = new EntityCommandBuffer(Allocator.TempJob);
+
+        Entities
+            .WithAll<PlayerData>()
+            .WithStructuralChanges()
+            .ForEach((Entity entity, int entityInQueryIndex, ref PlayerData player, in Translation translation, in Rotation rotation) =>
             {
-                player.alreadyShoot = false;
-            }
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                player.alreadyShoot = true;
-            }
-        }).Run();
+                if (Input.GetKeyDown(KeyCode.LeftControl))
+                {
+                    Entity newEntity = new Entity();
+                    if (player.upgradeToSuperLaser)
+                    {
+                        newEntity = cb.Instantiate(SpawnerEntitySystem.instance.superLaserEntityPrefab);
+                    }
+                    else
+                    {
+                        newEntity = cb.Instantiate(SpawnerEntitySystem.instance.laserEntityPrefab);
+                    }
+
+                    cb.AddComponent(newEntity, translation);
+                    cb.AddComponent(newEntity, rotation);
+                }
+            }).Run();
+        cb.Playback(EntityManager);
+        cb.Dispose();
     }
 }

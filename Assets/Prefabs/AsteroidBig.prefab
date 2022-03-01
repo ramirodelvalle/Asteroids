@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 599110668}
   - component: {fileID: 599110671}
-  - component: {fileID: 599110670}
   - component: {fileID: 599110669}
   m_Layer: 0
   m_Name: spriteRock
@@ -46,19 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
---- !u!114 &599110670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 599110667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConversionMode: 0
 --- !u!212 &599110669
 SpriteRenderer:
   m_ObjectHideFlags: 0

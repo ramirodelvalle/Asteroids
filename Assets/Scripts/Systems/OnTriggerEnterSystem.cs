@@ -123,8 +123,6 @@ public class OnTriggerEnterSystem : JobComponentSystem
                 //UnityEngine.Debug.Log("power up Entity A: " + entityA + " choco player: " + entityB);
                 entityCommandBuffer.AddComponent(entityB, new SuperLaserTag());
                 entityCommandBuffer.DestroyEntity(entityB);
-
-                //entityCommandBuffer.Dispose();
             }
         }
     }

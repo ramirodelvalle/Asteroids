@@ -92,7 +92,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1012832640}
   - component: {fileID: 1012832639}
-  - component: {fileID: 1012832641}
   m_Layer: 0
   m_Name: EntitySpawn
   m_TagString: Untagged
@@ -127,20 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EntityToSpawn: {fileID: 4085633750878131210, guid: d1c40847a2859ef47aa17a153ba874c4, type: 3}
-  EntityToSpawn2: {fileID: 2566482830887642777, guid: 4ab3fb8c6ce5b15468bb459d3146f189, type: 3}
---- !u!114 &1012832641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1012832638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConversionMode: 0
+  EntityToSpawn2: {fileID: 5545062153990874323, guid: 4ab3fb8c6ce5b15468bb459d3146f189, type: 3}
 --- !u!1 &551845416245482247
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,10 +141,9 @@ GameObject:
   - component: {fileID: 7928084649579750911}
   - component: {fileID: 551845416245482271}
   - component: {fileID: -4108101633166078977}
-  - component: {fileID: 405536233}
   m_Layer: 0
   m_Name: SpaceShip
-  m_TagString: Untagged
+  m_TagString: SpaceShip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -448,24 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ea78cbd510eb1942895a2a48fb1d6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 0
   speed: 10
-  rotationSpeed: 200
-  intervalShootTime: 0
-  alreadyShoot: 1
+  rotationSpeed: 300
   upgradeToSuperLaser: 0
   isForceShieldActive: 0
---- !u!114 &405536233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551845416245482247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 996cc0eae71a78c4c80b1e9bac4d57c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EntityToSpawn: {fileID: 4085633750878131210, guid: d1c40847a2859ef47aa17a153ba874c4, type: 3}
-  EntityToSpawn2: {fileID: 5545062153990874323, guid: 4ab3fb8c6ce5b15468bb459d3146f189, type: 3}
