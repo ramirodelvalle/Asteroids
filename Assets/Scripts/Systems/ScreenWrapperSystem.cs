@@ -8,7 +8,7 @@ public class ScreenWrapperSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         Entities
-            .WithNone<LaserData>()
+            .WithNone<LaserData, EnemyLaserData>()
             .ForEach((ref Translation translation) =>
         {
             float range = 0.5f;

@@ -1,11 +1,7 @@
 ﻿using Unity.Entities;
-using Unity.Jobs;
-using Unity.Physics;
 using Unity.Mathematics;
 using UnityEngine;
 using Unity.Transforms;
-using Unity.Physics.Extensions;
-using Unity.Collections;
 
 public class SpawnerEntitySystem : MonoBehaviour
 {
@@ -96,31 +92,6 @@ public class SpawnerEntitySystem : MonoBehaviour
         manager.AddComponentData(newObjEntity, asteroid);
     }
 
-    public void SpawnAsteroid()
-    {
-        Entity newObjEntity = manager.Instantiate(asteroidBigEntityPrefab);
-
-        float minForce = -2.5f;
-        float maxForce = 2.5f;
-        float3 direction = new float3(UnityEngine.Random.Range(minForce, maxForce),
-            UnityEngine.Random.Range(minForce, maxForce), 0f);
-
-        Translation translation = new Translation
-        {
-            Value = new float3(-3, 0, 0)
-        };
-        manager.AddComponentData(newObjEntity, translation);
-
-        AsteroidData asteroid = new AsteroidData
-        {
-            movementSpeed = 1,
-            movementDirection = direction,
-            asteroidSize = 1
-        };
-
-        manager.AddComponentData(newObjEntity, asteroid);
-    }
-
     public void SpawnAsteroid(Translation translation, AsteroidData asteroidData)
     {
         for (int i = 0; i < 2; i++)
@@ -142,7 +113,6 @@ public class SpawnerEntitySystem : MonoBehaviour
             {
                 asteroid.asteroidSize = 2;
                 asteroidEntity = asteroidMediumEntityPrefab;
-
             }
             else if (asteroidData.asteroidSize == 2)
             {
@@ -195,15 +165,5 @@ public class SpawnerEntitySystem : MonoBehaviour
         Entity newObjEntity = manager.Instantiate(powerUpEntityPrefab);
         manager.AddComponentData(newObjEntity, translation);
         manager.AddComponentData(newObjEntity, new SuperLaserPowerUpData());
-    }
-
-    public void ShootUfo(Translation translation)
-    {
-        //if (seconds % 2 == 0)
-        //{
-        //    Entity newObjEntity = manager.Instantiate(laserBallEntityPrefab);
-        //    manager.AddComponentData(newObjEntity, translation);
-        //    //manager.AddComponentData(newObjEntity, new SuperLaserPowerUpData());
-        //}
     }
 }

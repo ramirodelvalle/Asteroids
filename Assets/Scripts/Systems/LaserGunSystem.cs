@@ -28,11 +28,11 @@ public class LaserGunSystem : SystemBase
                     {
                         newEntity = cb.Instantiate(SpawnerEntitySystem.instance.laserEntityPrefab);
                     }
-
                     cb.AddComponent(newEntity, translation);
                     cb.AddComponent(newEntity, rotation);
                 }
             }).Run();
+
         cb.Playback(EntityManager);
         cb.Dispose();
     }

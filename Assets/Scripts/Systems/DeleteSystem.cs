@@ -34,14 +34,6 @@ public class DeleteSystem : SystemBase
                 commandBuffer.DestroyEntity(entity);
             }).Run();
 
-        Entities
-            .WithAll<EnemyData>()
-            .WithStructuralChanges()
-            .ForEach((Entity entity, in Translation translation) =>
-            {
-                SpawnerEntitySystem.instance.ShootUfo(translation);   
-            }).Run();
-
         commandBuffer.Playback(EntityManager);
         commandBuffer.Dispose();
     }

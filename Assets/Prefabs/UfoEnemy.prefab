@@ -309,5 +309,5 @@ MonoBehaviour:
     x: 1
     y: 0
     z: 0
-  secondsToFire: 0
+  secondsToFire: 2
   alreadyShoot: 0

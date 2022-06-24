@@ -750,15 +750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f49b675903c77b4c9a742da110533fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipPrefab: {fileID: 551845416245482247, guid: 1d06bef35ddbe254fbd0f9a73c7c8076, type: 3}
-  asteroidPrefabBig: {fileID: 6418223780565983520, guid: 62b321e5895ca7645b67ccbfcff44f46, type: 3}
-  asteroidPrefabMedium: {fileID: 6418223780565983520, guid: 3b94dd1e1175d7840a201b72e7e4e508, type: 3}
-  asteroidPrefabSmall: {fileID: 3298299280686902634, guid: 4c9909ee3cde7044b8bf837cc92760b8, type: 3}
-  powerUpPrefab: {fileID: 7921416050615363804, guid: 8a4f37e4eb07d6146ab5c8e51ecb5f27, type: 3}
-  ufoPrefab: {fileID: 362491722577192532, guid: 07f94042fbd6f664d839bc081d89dc2c, type: 3}
-  laserPrefab: {fileID: 4085633750878131210, guid: d1c40847a2859ef47aa17a153ba874c4, type: 3}
-  superLaserPrefab: {fileID: 5545062153990874323, guid: 4ab3fb8c6ce5b15468bb459d3146f189, type: 3}
-  laserBallPrefab: {fileID: 1791725765400459271, guid: 9b63e49dd1167f14e9999d97b76cfb10, type: 3}
   scoreText: {fileID: 33494523}
   maxScore: 0
   cubesPerFrame: 0

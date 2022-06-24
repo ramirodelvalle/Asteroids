@@ -9,9 +9,7 @@ using Unity.Transforms;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
     public Text scoreText;
-
     public int maxScore;
     public int cubesPerFrame;
     public float cubeSpeed = 3f;
@@ -26,7 +24,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         instance = this;
     }
 
@@ -43,17 +40,11 @@ public class GameManager : MonoBehaviour
         {
             Value = new float3(3, 0, 0)
         };
-        //SpawnPowerUpSuperLaser(translation);
     }
 
     private void Update()
     {
         seconds += Time.deltaTime;
-        if (seconds > timeToRespawnUfo)
-        {
-            //SpawnerEntitySystem.instance.SpawnUfo();
-            timeToRespawnUfo = seconds + 15;
-        }
     }
 
     public void IncreaseScore()

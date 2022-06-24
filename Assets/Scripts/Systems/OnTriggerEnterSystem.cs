@@ -46,24 +46,12 @@ public class OnTriggerEnterSystem : JobComponentSystem
             //Asteroid & player
             if (allPlayers.HasComponent(entityA) && allAsteroids.HasComponent(entityB))
             {
-                PlayerData myType = allPlayers[entityA];
-                if (myType.isForceShieldActive)
-                {
-                    //UnityEngine.Debug.Log("Force shield is active");
-                    return;
-                }
                 //UnityEngine.Debug.Log("player Entity A: " + entityA + " choco con asteroide: " + entityB);
                 entityCommandBuffer.AddComponent(entityB, new DeleteTag());
                 entityCommandBuffer.DestroyEntity(entityA);
             }
             else if (allAsteroids.HasComponent(entityA) && allPlayers.HasComponent(entityB))
             {
-                PlayerData myType = allPlayers[entityB];
-                if (myType.isForceShieldActive)
-                {
-                    //UnityEngine.Debug.Log("Force shield is active");
-                    return;
-                }
                 //UnityEngine.Debug.Log("asteroide Entity A: " + entityA + " choco con player: " + entityB);
                 entityCommandBuffer.AddComponent(entityA, new DeleteTag());
                 entityCommandBuffer.DestroyEntity(entityB);
@@ -111,7 +99,7 @@ public class OnTriggerEnterSystem : JobComponentSystem
                 entityCommandBuffer.DestroyEntity(entityB);
             }
 
-            //PLAYER & POWER UP
+            //PLAYER & POWER UP SUPER LASER
             if (allPowerUps.HasComponent(entityA) && allPlayers.HasComponent(entityB))
             {
                 //UnityEngine.Debug.Log("player Entity A: " + entityA + " choco con power up: " + entityB);

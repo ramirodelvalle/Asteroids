@@ -6,7 +6,7 @@ using UnityEngine;
 using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
-public class MovementSystem : JobComponentSystem
+public class PlayerRotationSystem : JobComponentSystem
 {
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
@@ -23,12 +23,6 @@ public class MovementSystem : JobComponentSystem
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(player.rotationSpeed * deltaTime * -1)));
-            }
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                //float3 value = translation.Value;
-                //value += deltaTime * player.speed * math.forward(rotation.Value) *-1;
-                //translation.Value = value;
             }
         }).Run();
 

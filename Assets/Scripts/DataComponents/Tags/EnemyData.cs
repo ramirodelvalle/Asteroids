@@ -6,6 +6,6 @@ public struct EnemyData: IComponentData
 {
     public int movementSpeed;
     public float3 movementDirection;
-    public float secondsToFire;
+    public int secondsToFire;
     public bool alreadyShoot;
 }
